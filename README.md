@@ -1,11 +1,3 @@
-# Helmet
-
-[Warning](https://prnt.sc/438B-ILirub4). Using UNSAFE_componentWillMount in
-strict mode is not recommended and may indicate bugs in your code. See
-https://reactjs.org/link/unsafe-component-lifecycles for details. Move code with
-side effects to componentDidMount, and set initial state in the constructor.
-Please update the following components: SideEffect(NullComponent)
-
 ## PersistGate
 
 [Error](https://prnt.sc/5Q643fWEfD2W) The above error occurred in one of your

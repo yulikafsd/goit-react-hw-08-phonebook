@@ -11,18 +11,21 @@ import { store } from 'redux/store';
 import { theme } from 'constants/theme';
 import { App } from 'App';
 import { GlobalStyle } from 'styles/GlobalStyles';
+import { HelmetProvider } from 'react-helmet-async';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       {/* <PersistGate loading={null} persistor={persistor}> */}
-      <BrowserRouter basename="/goit-react-hw-08-phonebook">
-        <ThemeProvider theme={theme}>
-          <App />
-          <ToastContainer autoClose={2000} position="bottom-right" />
-          <GlobalStyle />
-        </ThemeProvider>
-      </BrowserRouter>
+      <HelmetProvider>
+        <BrowserRouter basename="/goit-react-hw-08-phonebook">
+          <ThemeProvider theme={theme}>
+            <App />
+            <ToastContainer autoClose={2000} position="bottom-right" />
+            <GlobalStyle />
+          </ThemeProvider>
+        </BrowserRouter>
+      </HelmetProvider>
       {/* </PersistGate> */}
     </Provider>
   </React.StrictMode>

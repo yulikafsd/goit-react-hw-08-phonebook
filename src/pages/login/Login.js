@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectError, selectIsAuthorising } from 'redux/auth/selectors';
 import { Box } from 'styles/Box';
 import { logIn } from 'redux/auth/operations';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const initialValues = {
   id: '',

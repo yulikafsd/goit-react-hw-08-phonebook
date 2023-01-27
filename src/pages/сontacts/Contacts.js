@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchContacts } from 'redux/contacts/operations';
 import { selectError, selectOperation } from 'redux/contacts/selectors';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 function ContactsPage() {
   const error = useSelector(selectError);
