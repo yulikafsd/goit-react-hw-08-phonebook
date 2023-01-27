@@ -2,8 +2,8 @@ import { nanoid } from 'nanoid';
 import { Box } from 'styles/Box';
 import { Label, Input } from 'components/contactForm/ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFilter } from 'redux/filterSlice';
-import { selectFilter } from 'redux/selectors';
+import { changeFilter } from 'redux/filter/filterSlice';
+import { selectFilter } from 'redux/filter/selectors';
 
 export const Filter = () => {
   const filterInputId = nanoid();

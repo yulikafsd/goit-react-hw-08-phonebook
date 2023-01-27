@@ -7,9 +7,11 @@ import {
   StyledError,
   Button,
 } from 'pages/register/Register.styled';
-import { useSelector } from 'react-redux';
-import { selectOperation } from 'redux/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+// import { useState } from 'react';
+import { selectError, selectOperation } from 'redux/contacts/selectors';
 import { Box } from 'styles/Box';
+import { register } from 'redux/auth/operations';
 
 const initialValues = {
   id: '',
@@ -22,7 +24,27 @@ const RegisterPage = () => {
   const nameInputId = nanoid();
   const emailInputId = nanoid();
   const passwordInputId = nanoid();
+
+  // const [name, setName] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
   const operation = useSelector(selectOperation);
+  const error = useSelector(selectError);
+
+  // const handleChange = ({ target: { name, value } }) => {
+  //   switch (name) {
+  //     case 'name':
+  //       return setName(value);
+  //     case 'email':
+  //       return setEmail(value);
+  //     case 'password':
+  //       return setPassword(value);
+  //     default:
+  //       return;
+  //   }
+  // };
 
   const handleSubmit = (values, { resetForm }) => {
     //   const isContact = contacts.some(
@@ -33,13 +55,17 @@ const RegisterPage = () => {
     //     changeNameMessage(values.name);
     //     return;
     //   } else {
-    //     const newContact = {
-    //       name: values.name.trim(),
-    //       number: values.number.trim(),
-    //     };
-    //     dispatch(addContact(newContact)) && !error && resetForm();
-    //   }
-    // };
+    const newUser = {
+      name: values.name.trim(),
+      email: values.email.trim(),
+      password: values.password,
+    };
+    alert('register!');
+    dispatch(register(newUser)) && !error && resetForm();
+    // setName('');
+    // setEmail('');
+    // setPassword('');
+    // }
   };
 
   return (
@@ -58,12 +84,15 @@ const RegisterPage = () => {
         initialValues={initialValues}
         onSubmit={handleSubmit}
         validationSchema={registerSchema}
+        autoComplete="off"
       >
         <Form>
           <Label htmlFor={nameInputId}>Name</Label>
           <StyledField
             type="text"
             name="name"
+            // value={name}
+            // onChange={handleChange}
             required
             id={nameInputId}
             placeholder="Peter Pen"
@@ -73,6 +102,8 @@ const RegisterPage = () => {
           <StyledField
             type="email"
             name="email"
+            // value={email}
+            // onChange={handleChange}
             required
             id={emailInputId}
             placeholder="your.mail@email.com"
@@ -82,6 +113,8 @@ const RegisterPage = () => {
           <StyledField
             type="password"
             name="password"
+            // value={password}
+            // onChange={handleChange}
             required
             id={passwordInputId}
           />

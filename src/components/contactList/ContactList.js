@@ -8,9 +8,10 @@ import {
   Number,
   Button,
 } from 'components/contactList/ContactList.styled';
-import { selectFilteredContacts, selectOperation } from 'redux/selectors';
+import { selectOperation } from 'redux/contacts/selectors';
+import { selectFilteredContacts } from 'redux/filter/selectors';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/operations';
+import { deleteContact } from 'redux/contacts/operations';
 
 export function ContactList() {
   const operation = useSelector(selectOperation);

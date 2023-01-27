@@ -31,7 +31,7 @@ export const registerSchema = yup.object().shape({
     .required('Email is required'),
   password: yup
     .string()
-    .required('No password provided.')
+    .required('No password provided')
     .min(8, 'Password is too short - should be 8 chars minimum')
     .matches(
       /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,

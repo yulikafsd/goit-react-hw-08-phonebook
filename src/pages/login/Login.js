@@ -8,7 +8,7 @@ import {
   Button,
 } from 'pages/login/Login.styled';
 import { useSelector } from 'react-redux';
-import { selectOperation } from 'redux/selectors';
+import { selectOperation } from 'redux/contacts/selectors';
 import { Box } from 'styles/Box';
 
 const initialValues = {

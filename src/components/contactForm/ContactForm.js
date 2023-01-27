@@ -6,8 +6,12 @@ import {
 } from 'components/contactForm/ContactForm.styled.js';
 import { Formik, Form } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts, selectError, selectOperation } from 'redux/selectors';
-import { addContact } from 'redux/operations';
+import {
+  selectContacts,
+  selectError,
+  selectOperation,
+} from 'redux/contacts/selectors';
+import { addContact } from 'redux/contacts/operations';
 import { nanoid } from 'nanoid';
 import { contactSchema } from 'constants/schema';
 import { changeNameMessage } from 'constants/notifications';

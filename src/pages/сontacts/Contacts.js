@@ -2,8 +2,8 @@ import { Box } from 'styles/Box';
 import { ContactForm, ContactList, Filter } from 'components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchContacts } from 'redux/operations';
-import { selectError, selectOperation } from 'redux/selectors';
+import { fetchContacts } from 'redux/contacts/operations';
+import { selectError, selectOperation } from 'redux/contacts/selectors';
 
 function ContactsPage() {
   const error = useSelector(selectError);
