@@ -22,4 +22,4 @@ export const logInMessage = name => toast(`${name}, welcome to your Phonebook`);
 export const logOutMessage = () => toast('Come back soon... 😥');
 
 export const errorMessage = error =>
-  toast.error(`Something went wrong. ${error}. Try reload the page`);
+  toast.error(`Something went wrong. ${error}. Try again or reload the page`);
