@@ -8,7 +8,7 @@ import {
   Button,
 } from 'pages/login/Login.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectOperation, selectError } from 'redux/contacts/selectors';
+import { selectError, selectIsAuthorising } from 'redux/auth/selectors';
 import { Box } from 'styles/Box';
 import { logIn } from 'redux/auth/operations';
 import { Helmet } from 'react-helmet';
@@ -22,26 +22,16 @@ const initialValues = {
 const LoginPage = () => {
   const emailInputId = nanoid();
   const passwordInputId = nanoid();
-  const operation = useSelector(selectOperation);
   const error = useSelector(selectError);
+  const isAuthorising = useSelector(selectIsAuthorising);
   const dispatch = useDispatch();
 
   const handleSubmit = (values, { resetForm }) => {
-    //   const isContact = contacts.some(
-    //     contact =>
-    //       contact.name.toLowerCase() === values.name.toLowerCase().trim()
-    //   );
-    //   if (isContact) {
-    //     changeNameMessage(values.name);
-    //     return;
-    //   } else {
     const user = {
       email: values.email.trim(),
       password: values.password.trim(),
     };
     dispatch(logIn(user)) && !error && resetForm();
-    //   }
-    // };
   };
 
   return (
@@ -83,8 +73,8 @@ const LoginPage = () => {
               id={passwordInputId}
             />
             <StyledError name="password" component="div" />
-            <Button type="submit" disabled={operation === 'login'}>
-              {operation === 'login' ? 'Logging in...' : 'Log in'}
+            <Button type="submit" disabled={isAuthorising}>
+              {isAuthorising ? 'Logging in...' : 'Log in'}
             </Button>
           </Form>
         </Formik>

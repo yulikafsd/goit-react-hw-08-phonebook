@@ -8,8 +8,7 @@ import {
   Button,
 } from 'pages/register/Register.styled';
 import { useDispatch, useSelector } from 'react-redux';
-// import { useState } from 'react';
-import { selectError, selectOperation } from 'redux/contacts/selectors';
+import { selectError, selectIsAuthorising } from 'redux/auth/selectors';
 import { Box } from 'styles/Box';
 import { register } from 'redux/auth/operations';
 import { Helmet } from 'react-helmet';
@@ -26,47 +25,17 @@ const RegisterPage = () => {
   const emailInputId = nanoid();
   const passwordInputId = nanoid();
 
-  // const [name, setName] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
-
   const dispatch = useDispatch();
-  const operation = useSelector(selectOperation);
+  const isAuthorising = useSelector(selectIsAuthorising);
   const error = useSelector(selectError);
 
-  // const handleChange = ({ target: { name, value } }) => {
-  //   switch (name) {
-  //     case 'name':
-  //       return setName(value);
-  //     case 'email':
-  //       return setEmail(value);
-  //     case 'password':
-  //       return setPassword(value);
-  //     default:
-  //       return;
-  //   }
-  // };
-
   const handleSubmit = (values, { resetForm }) => {
-    //   const isContact = contacts.some(
-    //     contact =>
-    //       contact.name.toLowerCase() === values.name.toLowerCase().trim()
-    //   );
-    //   if (isContact) {
-    //     changeNameMessage(values.name);
-    //     return;
-    //   } else {
     const newUser = {
       name: values.name.trim(),
       email: values.email.trim(),
       password: values.password,
     };
-    alert('register!');
     dispatch(register(newUser)) && !error && resetForm();
-    // setName('');
-    // setEmail('');
-    // setPassword('');
-    // }
   };
 
   return (
@@ -124,8 +93,8 @@ const RegisterPage = () => {
               id={passwordInputId}
             />
             <StyledError name="password" component="div" />
-            <Button type="submit" disabled={operation === 'register'}>
-              {operation === 'register' ? 'registering...' : 'Register'}
+            <Button type="submit" disabled={isAuthorising}>
+              {isAuthorising ? 'registering...' : 'Register'}
             </Button>
           </Form>
         </Formik>

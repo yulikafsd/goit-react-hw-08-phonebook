@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { register, logIn, logout } from './operations';
+import { register, logIn, logOut, refreshUser } from './operations';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
@@ -8,10 +8,8 @@ const initialState = {
   token: null,
   isLoggedIn: false,
   isRefresing: false,
-};
-
-const returnInitialState = state => {
-  state = initialState;
+  error: null,
+  isAuthorising: false,
 };
 
 export const authSlice = createSlice({
@@ -19,31 +17,69 @@ export const authSlice = createSlice({
   initialState,
   extraReducers: builder =>
     builder
-      .addCase(register.pending, (state, action) => state)
+
+      // // REGISTER
+      .addCase(register.pending, state => {
+        state.isAuthorising = true;
+      })
       .addCase(register.fulfilled, (state, { payload }) => {
         state.user = payload.user;
         state.token = payload.token;
         state.isLoggedIn = true;
+        state.isAuthorising = false;
+        state.error = null;
       })
-      .addCase(register.rejected, (state, action) => state)
+      .addCase(register.rejected, (state, { payload }) => {
+        state.isAuthorising = false;
+        state.error = payload;
+      })
+
+      // // LOGIN
+      .addCase(logIn.pending, state => {
+        state.isAuthorising = true;
+      })
       .addCase(logIn.fulfilled, (state, { payload }) => {
         state.user = payload.user;
         state.token = payload.token;
         state.isLoggedIn = true;
+        state.isAuthorising = false;
+        state.error = null;
+      })
+      .addCase(logIn.rejected, (state, { payload }) => {
+        state.isAuthorising = false;
+        state.error = payload;
+      })
+
+      // // LOGOUT
+      .addCase(logOut.pending, state => {
+        state.isAuthorising = true;
+      })
+      .addCase(logOut.fulfilled, state => {
+        state.user = { name: null, email: null };
+        state.token = null;
+        state.isLoggedIn = false;
+        state.isAuthorising = false;
+        state.error = null;
+      })
+      .addCase(logOut.rejected, (state, { payload }) => {
+        state.isAuthorising = false;
+        state.error = payload;
+      })
+
+      // // REFRESH
+      .addCase(refreshUser.pending, state => {
+        state.isRefresing = true;
+      })
+      .addCase(refreshUser.fulfilled, (state, { payload }) => {
+        state.user = payload;
+        state.isLoggedIn = true;
+        state.isRefresing = false;
+        state.error = null;
+      })
+      .addCase(refreshUser.rejected, (state, { payload }) => {
+        state.isRefresing = false;
+        state.error = payload;
       }),
-
-  // LOGIN
-  //     [login.pending](state, { meta }) {
-  //       state.isRefresing = true;
-  //     },
-  //     [login.fulfilled](state, { payload }) {
-  //       state.isRefresing = false;
-  //     state.user = payload.user;
-  //     },
-  //     [login.rejected]: returnInitialState,
-
-  // LOGOUT
-  [logout.fulfilled]: returnInitialState,
 });
 
 const authReducer = authSlice.reducer;

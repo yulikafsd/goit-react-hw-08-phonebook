@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchContacts, addContact, deleteContact } from './operations';
+import { logOut } from 'redux/auth/operations';
 
 const initialState = {
   items: [],
@@ -17,59 +18,53 @@ const handleRejected = (state, { payload }) => {
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
-  extraReducers: {
-    // FETCH
-    [fetchContacts.pending](state) {
-      state.operation = 'fetch';
-      state.isLoading = true;
-    },
-
-    [fetchContacts.fulfilled](state, { payload }) {
-      state.operation = null;
-      state.isLoading = false;
-      state.error = null;
-      state.items = payload;
-    },
-
-    [fetchContacts.rejected]: handleRejected,
-
-    // DELETE CONTACT
-    [deleteContact.pending](state, { meta }) {
-      state.operation = `${meta.arg}`;
-      state.isLoading = true;
-    },
-
-    [deleteContact.fulfilled](state, { payload }) {
-      state.operation = null;
-      state.isLoading = false;
-      state.error = null;
-      const index = state.items.findIndex(contact => contact.id === payload);
-      state.items.splice(index, 1);
-    },
-
-    [deleteContact.rejected](state, { payload }) {
-      state.operation = null;
-      state.isLoading = false;
-      state.error = payload;
-    },
-
-    // ADD CONTACT
-    [addContact.pending](state) {
-      state.operation = 'add';
-      state.isLoading = true;
-    },
-    [addContact.fulfilled](state, { payload }) {
-      state.items = [...state.items, payload];
-      state.operation = null;
-      state.isLoading = false;
-      state.error = null;
-    },
-    [addContact.rejected](state, { payload }) {
-      state.isLoading = false;
-      state.operation = null;
-      state.error = payload;
-    },
-  },
+  extraReducers: builder =>
+    builder
+      .addCase(fetchContacts.pending, state => {
+        state.operation = 'fetch';
+        state.isLoading = true;
+      })
+      .addCase(fetchContacts.fulfilled, (state, { payload }) => {
+        state.operation = null;
+        state.isLoading = false;
+        state.error = null;
+        state.items = payload;
+      })
+      .addCase(fetchContacts.rejected, handleRejected)
+      .addCase(deleteContact.pending, (state, { meta }) => {
+        state.operation = `${meta.arg}`;
+        state.isLoading = true;
+      })
+      .addCase(deleteContact.fulfilled, (state, { payload }) => {
+        state.operation = null;
+        state.isLoading = false;
+        state.error = null;
+        const index = state.items.findIndex(contact => contact.id === payload);
+        state.items.splice(index, 1);
+      })
+      .addCase(deleteContact.rejected, (state, { payload }) => {
+        state.operation = null;
+        state.isLoading = false;
+        state.error = payload;
+      })
+      .addCase(addContact.pending, state => {
+        state.operation = 'add';
+        state.isLoading = true;
+      })
+      .addCase(addContact.fulfilled, (state, { payload }) => {
+        state.items = [...state.items, payload];
+        state.operation = null;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(addContact.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.operation = null;
+        state.error = payload;
+      })
+      .addCase(logOut.fulfilled, state => {
+        state.items = [];
+      }),
 });
 
 export const contactsReducer = contactsSlice.reducer;

@@ -16,7 +16,6 @@ export const Menu = styled.nav`
 export const StyledLink = styled(NavLink)`
   padding: 0 12px;
   font-size: 20px;
-  scale: 1;
   color: #333333;
   text-decoration: none;
   border-top: 2px solid transparent;

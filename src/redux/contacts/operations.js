@@ -1,21 +1,19 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
+  loadMessage,
   addMessage,
   deleteMessage,
+  updateMessage,
   errorMessage,
-  loadMessage,
-  emptyListMessage,
 } from 'constants/notifications';
-
-axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
   async (signal, { rejectWithValue }) => {
     try {
       const { data } = await axios.get('/contacts', { signal });
-      data.length > 0 ? loadMessage(data) : emptyListMessage();
+      loadMessage(data);
       return data;
     } catch (e) {
       if (!e.message === 'canceled') {
@@ -28,28 +26,42 @@ export const fetchContacts = createAsyncThunk(
 
 export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async (contact, thunkAPI) => {
+  async (contact, { rejectWithValue }) => {
     try {
       const { data } = await axios.post('/contacts', contact);
       addMessage(data.name);
       return data;
     } catch (e) {
       errorMessage(e.message);
-      return thunkAPI.rejectWithValue(e.message);
+      return rejectWithValue(e.message);
     }
   }
 );
 
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
-  async (contactId, thunkAPI) => {
+  async (contactId, { rejectWithValue }) => {
     try {
       const { data } = await axios.delete(`/contacts/${contactId}`);
       deleteMessage(data.name);
       return data.id;
     } catch (e) {
       errorMessage(e.message);
-      return thunkAPI.rejectWithValue(e.message);
+      return rejectWithValue(e.message);
+    }
+  }
+);
+
+export const updateContact = createAsyncThunk(
+  'contacts/updateContact',
+  async (contactId, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.patch(`/contacts/${contactId}`);
+      updateMessage(data.name);
+      return data.id;
+    } catch (e) {
+      errorMessage(e.message);
+      return rejectWithValue(e.message);
     }
   }
 );
