@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { register, logout } from './operations';
+import { register, logIn, logout } from './operations';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 const initialState = {
   user: { name: null, email: null },
   token: null,
   isLoggedIn: false,
-  operation: null,
-  isLoading: false,
+  isRefresing: false,
 };
 
 const returnInitialState = state => {
@@ -16,51 +17,44 @@ const returnInitialState = state => {
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  extraReducers: {
-    // REGISTER
-    [register.pending](state) {
-      state.operation = 'register';
-      state.isLoading = true;
-    },
-    [register.fulfilled](state, { payload }) {
-      state.operation = null;
-      state.isLoading = false;
-      state.error = null;
-      state.user = payload.user;
-      state.token = payload.token;
-    },
-    [register.rejected]: returnInitialState,
+  extraReducers: builder =>
+    builder
+      .addCase(register.pending, (state, action) => state)
+      .addCase(register.fulfilled, (state, { payload }) => {
+        state.user = payload.user;
+        state.token = payload.token;
+        state.isLoggedIn = true;
+      })
+      .addCase(register.rejected, (state, action) => state)
+      .addCase(logIn.fulfilled, (state, { payload }) => {
+        state.user = payload.user;
+        state.token = payload.token;
+        state.isLoggedIn = true;
+      }),
 
-    // LOGIN
-    //     [login.pending](state, { meta }) {
-    //       state.operation = `${meta.arg}`;
-    //       state.isLoading = true;
-    //     },
-    //     [login.fulfilled](state, { payload }) {
-    //       state.operation = null;
-    //       state.isLoading = false;
-    //       state.error = null;
-    //       const index = state.items.findIndex(contact => contact.id === payload);
-    //       state.items.splice(index, 1);
-    //     },
-    //     [login.rejected](state, { payload }) {
-    //       state.operation = null;
-    //       state.isLoading = false;
-    //       state.error = payload;
-    //     },
-    // LOGOUT
-    [logout.fulfilled]: returnInitialState,
-  },
+  // LOGIN
+  //     [login.pending](state, { meta }) {
+  //       state.isRefresing = true;
+  //     },
+  //     [login.fulfilled](state, { payload }) {
+  //       state.isRefresing = false;
+  //     state.user = payload.user;
+  //     },
+  //     [login.rejected]: returnInitialState,
+
+  // LOGOUT
+  [logout.fulfilled]: returnInitialState,
 });
 
-export const authReducer = authSlice.reducer;
+const authReducer = authSlice.reducer;
 
-// Перенести персистор слайса из стора сюда
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+  whitelist: ['token'],
+};
 
-// const authPersistConfig = {
-//   key: 'auth',
-//   storage,
-//   whitelist: ['token'],
-// };
-
-//     auth: persistReducer(authPersistConfig, authReducer),
+export const persistedAuthReducer = persistReducer(
+  authPersistConfig,
+  authReducer
+);
