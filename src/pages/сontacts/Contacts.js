@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchContacts } from 'redux/contacts/operations';
 import { selectError, selectOperation } from 'redux/contacts/selectors';
-// import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 function ContactsPage() {
   const error = useSelector(selectError);
@@ -24,9 +24,9 @@ function ContactsPage() {
 
   return (
     <>
-      {/* <Helmet>
+      <Helmet>
         <title>My contacts</title>
-      </Helmet> */}
+      </Helmet>
       <Box
         pt={3}
         pb={3}

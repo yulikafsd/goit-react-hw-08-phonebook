@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectError, selectOperation } from 'redux/contacts/selectors';
 import { Box } from 'styles/Box';
 import { register } from 'redux/auth/operations';
-// import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 const initialValues = {
   id: '',
@@ -71,9 +71,9 @@ const RegisterPage = () => {
 
   return (
     <>
-      {/* <Helmet>
+      <Helmet>
         <title>Register</title>
-      </Helmet> */}
+      </Helmet>
       <Box
         pt={3}
         pb={3}
