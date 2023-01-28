@@ -11,28 +11,27 @@ import { App } from 'App';
 import { GlobalStyle } from 'styles/GlobalStyles';
 import { HelmetProvider } from 'react-helmet-async';
 
-// import { persistor } from 'redux/store';
-// import { PersistGate } from 'redux-persist/integration/react';
-// import { Loader } from 'components';
+import { persistor } from 'redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <PersistGate loading={<Loader />} persistor={persistor}> */}
-      <HelmetProvider>
-        <BrowserRouter basename="/goit-react-hw-08-phonebook">
-          <ThemeProvider theme={theme}>
-            <App />
-            <ToastContainer
-              autoClose={2000}
-              position="bottom-right"
-              style={{ width: '200px' }}
-            />
-            <GlobalStyle />
-          </ThemeProvider>
-        </BrowserRouter>
-      </HelmetProvider>
-      {/* </PersistGate> */}
+      <PersistGate loading={null} persistor={persistor}>
+        <HelmetProvider>
+          <BrowserRouter basename="/goit-react-hw-08-phonebook">
+            <ThemeProvider theme={theme}>
+              <App />
+              <ToastContainer
+                autoClose={2000}
+                position="bottom-right"
+                style={{ width: '200px' }}
+              />
+              <GlobalStyle />
+            </ThemeProvider>
+          </BrowserRouter>
+        </HelmetProvider>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
