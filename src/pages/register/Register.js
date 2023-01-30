@@ -65,8 +65,6 @@ const RegisterPage = () => {
             <StyledField
               type="text"
               name="name"
-              // value={name}
-              // onChange={handleChange}
               required
               id={nameInputId}
               placeholder="Peter Pen"
@@ -76,8 +74,6 @@ const RegisterPage = () => {
             <StyledField
               type="email"
               name="email"
-              // value={email}
-              // onChange={handleChange}
               required
               id={emailInputId}
               placeholder="your.mail@email.com"
@@ -87,8 +83,6 @@ const RegisterPage = () => {
             <StyledField
               type="password"
               name="password"
-              // value={password}
-              // onChange={handleChange}
               required
               id={passwordInputId}
             />

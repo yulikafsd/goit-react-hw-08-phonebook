@@ -1,29 +1,40 @@
 import { Box } from 'styles/Box';
-import { AiFillCloseCircle } from 'react-icons/ai';
+import { AiFillCloseCircle, AiFillEdit } from 'react-icons/ai';
 import { BiLoaderCircle } from 'react-icons/bi';
 import {
   Item,
-  Wrapper,
+  ContactWrapper,
+  ButtonsWrapper,
   Text,
   Number,
   Button,
 } from 'components/contactList/ContactList.styled';
-import { selectOperation } from 'redux/contacts/selectors';
+import {
+  selectEditedContactId,
+  selectOperation,
+} from 'redux/contacts/selectors';
 import { selectFilteredContacts } from 'redux/filter/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/contacts/operations';
+import { setEditedContactId, setIsOpen } from 'redux/contacts/contactsSlice';
 
 export function ContactList() {
   const operation = useSelector(selectOperation);
   const searchResults = useSelector(selectFilteredContacts);
+  const editedContactId = useSelector(selectEditedContactId);
   const dispatch = useDispatch();
 
-  const handleClick = contactId => {
+  const handleDelete = contactId => {
     dispatch(deleteContact(contactId));
   };
 
+  const handleEdit = id => {
+    dispatch(setEditedContactId(id));
+    dispatch(setIsOpen(true));
+  };
+
   return (
-    <div>
+    <>
       {searchResults.length === 0 && (
         <Box as="p" fontSize={14}>
           No contacts
@@ -34,30 +45,53 @@ export function ContactList() {
           {searchResults.map(({ id, name, number }) => {
             return (
               <Item key={id}>
-                <Wrapper>
+                <ContactWrapper>
                   <Text>{name}</Text>
                   <Number>{number}</Number>
-                </Wrapper>
-                <Button
-                  type="button"
-                  disabled={operation === id}
-                  onClick={() => handleClick(id)}
-                >
-                  {operation === id ? (
-                    <BiLoaderCircle size="20px" color="white" fill="#00bcd5" />
-                  ) : (
-                    <AiFillCloseCircle
-                      size="20px"
-                      color="white"
-                      fill="#00bcd5"
-                    />
-                  )}
-                </Button>
+                </ContactWrapper>
+
+                <ButtonsWrapper>
+                  <Button
+                    type="button"
+                    disabled={operation === 'update'}
+                    onClick={() => handleEdit(id)}
+                  >
+                    {operation === 'update' && editedContactId === id ? (
+                      <BiLoaderCircle
+                        size="20px"
+                        color="white"
+                        fill="#00bcd5"
+                      />
+                    ) : (
+                      <AiFillEdit size="20px" color="white" fill="#00bcd5" />
+                    )}
+                  </Button>
+
+                  <Button
+                    type="button"
+                    disabled={operation === id}
+                    onClick={() => handleDelete(id)}
+                  >
+                    {operation === id ? (
+                      <BiLoaderCircle
+                        size="20px"
+                        color="white"
+                        fill="#00bcd5"
+                      />
+                    ) : (
+                      <AiFillCloseCircle
+                        size="20px"
+                        color="white"
+                        fill="#00bcd5"
+                      />
+                    )}
+                  </Button>
+                </ButtonsWrapper>
               </Item>
             );
           })}
         </Box>
       )}
-    </div>
+    </>
   );
 }

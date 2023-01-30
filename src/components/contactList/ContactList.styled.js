@@ -3,7 +3,9 @@ import styled from 'styled-components';
 export const Button = styled.button`
   display: flex;
   align-items: center;
+  height: 50px;
   border: none;
+  cursor: pointer;
   background-color: transparent;
   transition: all 150ms linear;
 
@@ -12,7 +14,11 @@ export const Button = styled.button`
   }
 `;
 
-export const Wrapper = styled.div``;
+export const ContactWrapper = styled.div``;
+
+export const ButtonsWrapper = styled.div`
+  display: flex;
+`;
 
 export const Text = styled.p`
   display: block;

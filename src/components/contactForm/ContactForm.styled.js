@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { Field, ErrorMessage } from 'formik';
+import { Field, ErrorMessage, Form } from 'formik';
+
+export const Header = styled.h2`
+  text-align: center;
+`;
+
+export const StyledForm = styled(Form)``;
 
 export const Label = styled.label`
   display: block;
@@ -8,20 +14,19 @@ export const Label = styled.label`
   line-height: 1;
 `;
 
-export const Input = styled.input`
-  display: block;
-  width: 236px;
-  line-height: 1;
-
-  &:last-of-type {
-    margin-bottom: 20px;
-  }
-`;
-
 export const StyledField = styled(Field)`
   display: block;
-  width: 236px;
-  line-height: 1;
+  padding-left: 10px;
+  width: 300px;
+  line-height: 2.3;
+  border-radius: 5px;
+  border: 1px solid #333;
+
+  &:hover,
+  &:focus {
+    border-color: #00a6bc;
+    outline: none;
+  }
 `;
 
 export const StyledError = styled(ErrorMessage)`
@@ -34,18 +39,33 @@ export const StyledError = styled(ErrorMessage)`
 
 export const Button = styled.button`
   display: block;
-  margin: auto;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  cursor: pointer;
+  outline: none;
+  margin: 20px auto;
   padding: 10px 20px;
   min-width: 130px;
-  border: none;
+  border: 2px solid #00bcd5;
   border-radius: 25px;
   color: #fff;
   background-color: #00bcd5;
   transition: all 250ms ease-in-out;
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: #00a6bc;
+    border-color: #00a6bc;
+  }
+
+  &:last-of-type {
+    color: #00bcd5;
+    background-color: transparent;
+    border-color: #00bcd5;
+    transition: all 250ms ease-in-out;
+
+    &:hover,
+    &:focus {
+      border-color: #00a6bc;
+      color: #00a6bc;
+    }
   }
 `;

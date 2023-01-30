@@ -1,14 +1,22 @@
 import { Box } from 'styles/Box';
+import { IoPersonAddSharp } from 'react-icons/io5';
+import { Button } from './Contacts.styled';
 import { ContactForm, ContactList, Filter } from 'components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchContacts } from 'redux/contacts/operations';
-import { selectError, selectOperation } from 'redux/contacts/selectors';
+import {
+  selectError,
+  selectOperation,
+  selectIsOpen,
+} from 'redux/contacts/selectors';
 import { Helmet } from 'react-helmet-async';
+import { setIsOpen } from 'redux/contacts/contactsSlice';
 
 function ContactsPage() {
   const error = useSelector(selectError);
   const operation = useSelector(selectOperation);
+  const isOpen = useSelector(selectIsOpen);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,25 +35,27 @@ function ContactsPage() {
       <Helmet>
         <title>My contacts</title>
       </Helmet>
-      <Box
-        pt={3}
-        pb={3}
-        pr={4}
-        pl={4}
-        textAlign="center"
-        width="300px"
-        ml="auto"
-        mr="auto"
-      >
-        <h1>Phonebook</h1>
-        <ContactForm />
-        <h2>Contacts</h2>
-        <Filter />
-        {operation === 'fetch' && <p>Loading contacts...</p>}
-        {error && error !== 'canceled' && (
-          <p>Oops, {error}. Try reload the page.</p>
+      <Box pt={3} pb={3} pr={4} pl={4} display="flex" alignItems="start">
+        <Box mr={5}>
+          <Filter />
+          {operation === 'fetch' && <p>Loading contacts...</p>}
+          {error && error !== 'canceled' && (
+            <p>Oops, {error}. Try reload the page.</p>
+          )}
+          {operation !== 'fetch' && !error && <ContactList />}
+        </Box>
+        {isOpen ? (
+          <ContactForm />
+        ) : (
+          <Button
+            type="button"
+            onClick={() => {
+              dispatch(setIsOpen(true));
+            }}
+          >
+            <IoPersonAddSharp size="30px" color="inherit" fill="inherit" />
+          </Button>
         )}
-        {operation !== 'fetch' && !error && <ContactList />}
       </Box>
     </>
   );
