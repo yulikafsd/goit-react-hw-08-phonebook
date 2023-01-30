@@ -88,7 +88,7 @@ const RegisterPage = () => {
             />
             <StyledError name="password" component="div" />
             <Button type="submit" disabled={isAuthorising}>
-              {isAuthorising ? 'registering...' : 'Register'}
+              {isAuthorising ? 'Registering...' : 'Register'}
             </Button>
           </Form>
         </Formik>
