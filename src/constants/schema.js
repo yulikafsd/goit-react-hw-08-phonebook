@@ -3,17 +3,17 @@ import * as yup from 'yup';
 export const formSchema = yup.object().shape({
   name: yup
     .string()
-    // .required()
+    .required()
     .matches(
       /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
       "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
     ),
   number: yup
     .string()
-    // .required()
+    .required()
     .matches(
-      /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
-      'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
+      /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/,
+      'Phone number must be at least 10 digits and can contain dashes, spaces, parentheses and can start with +'
     ),
 });
 

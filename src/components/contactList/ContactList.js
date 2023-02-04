@@ -11,6 +11,7 @@ import {
 } from 'components/contactList/ContactList.styled';
 import {
   selectEditedContactId,
+  selectIsOpen,
   selectOperation,
 } from 'redux/contacts/selectors';
 import { selectFilteredContacts } from 'redux/filter/selectors';
@@ -22,6 +23,8 @@ export function ContactList() {
   const operation = useSelector(selectOperation);
   const searchResults = useSelector(selectFilteredContacts);
   const editedContactId = useSelector(selectEditedContactId);
+  const contactId = useSelector(selectEditedContactId);
+  const isOpen = useSelector(selectIsOpen);
   const dispatch = useDispatch();
 
   const handleDelete = contactId => {
@@ -29,8 +32,15 @@ export function ContactList() {
   };
 
   const handleEdit = id => {
+    if (isOpen && contactId === id) {
+      dispatch(setIsOpen(false));
+      dispatch(setEditedContactId(null));
+      return;
+    }
     dispatch(setEditedContactId(id));
-    dispatch(setIsOpen(true));
+    if (!isOpen) {
+      dispatch(setIsOpen(true));
+    }
   };
 
   return (

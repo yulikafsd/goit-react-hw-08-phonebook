@@ -57,6 +57,7 @@ export const contactsSlice = createSlice({
       .addCase(addContact.fulfilled, (state, { payload }) => {
         state.items = [...state.items, payload];
         state.operation = null;
+        state.isOpen = false;
         state.isLoading = false;
         state.error = null;
       })
@@ -72,6 +73,7 @@ export const contactsSlice = createSlice({
       .addCase(updateContact.fulfilled, (state, { payload }) => {
         state.operation = null;
         state.isLoading = false;
+        state.isOpen = false;
         state.error = null;
         const index = state.items.findIndex(
           contact => contact.id === payload.id

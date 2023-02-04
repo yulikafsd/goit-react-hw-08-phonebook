@@ -30,6 +30,7 @@ export const StyledField = styled(Field)`
 `;
 
 export const StyledError = styled(ErrorMessage)`
+  width: 300px;
   font-size: 10px;
   font-style: italic;
   text-align: left;

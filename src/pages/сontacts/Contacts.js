@@ -9,6 +9,7 @@ import {
   selectError,
   selectOperation,
   selectIsOpen,
+  selectEditedContactId,
 } from 'redux/contacts/selectors';
 import { Helmet } from 'react-helmet-async';
 import { setEditedContactId, setIsOpen } from 'redux/contacts/contactsSlice';
@@ -17,6 +18,7 @@ function ContactsPage() {
   const error = useSelector(selectError);
   const operation = useSelector(selectOperation);
   const isOpen = useSelector(selectIsOpen);
+  const contactId = useSelector(selectEditedContactId);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,6 +31,16 @@ function ContactsPage() {
       controller.abort();
     };
   }, [dispatch]);
+
+  const handleClick = () => {
+    if (isOpen && !contactId) {
+      return dispatch(setIsOpen(false));
+    }
+    if (!isOpen) {
+      dispatch(setIsOpen(true));
+    }
+    dispatch(setEditedContactId(null));
+  };
 
   return (
     <>
@@ -45,13 +57,7 @@ function ContactsPage() {
           {operation !== 'fetch' && !error && <ContactList />}
         </Box>
         <Box>
-          <Button
-            type="button"
-            onClick={() => {
-              dispatch(setIsOpen(true));
-              dispatch(setEditedContactId(null));
-            }}
-          >
+          <Button type="button" onClick={handleClick}>
             <IoPersonAddSharp size="30px" color="inherit" fill="inherit" />
           </Button>
           {isOpen && <ContactForm />}
