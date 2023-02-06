@@ -4,3 +4,4 @@ export const selectIsLoading = state => state.contacts.isLoading;
 export const selectOperation = state => state.contacts.operation;
 export const selectEditedContactId = state => state.contacts.editedContactId;
 export const selectIsOpen = state => state.contacts.isOpen;
+export const selectUsedForm = state => state.contacts.usedForm;

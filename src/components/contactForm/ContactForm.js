@@ -14,6 +14,7 @@ import {
   selectOperation,
   selectEditedContactId,
   selectIsOpen,
+  selectUsedForm,
 } from 'redux/contacts/selectors';
 import { addContact, updateContact } from 'redux/contacts/operations';
 import { nanoid } from 'nanoid';
@@ -36,6 +37,7 @@ export const ContactForm = () => {
   const operation = useSelector(selectOperation);
   const contactId = useSelector(selectEditedContactId);
   const isOpen = useSelector(selectIsOpen);
+  const usedForm = useSelector(selectUsedForm);
 
   const handleClick = () => {
     if (isOpen) {
@@ -96,7 +98,7 @@ export const ContactForm = () => {
       <Formik
         enableReinitialize="true"
         initialValues={
-          contactId
+          usedForm === 'update' && operation !== 'update'
             ? contacts.find(contact => contact.id === contactId)
             : initialValues
         }
@@ -117,7 +119,7 @@ export const ContactForm = () => {
           <StyledField
             type="tel"
             name="number"
-            placeholder="111 - 123 456 789"
+            placeholder="+11(123)4567890"
             required
             id={numberInputId}
           />

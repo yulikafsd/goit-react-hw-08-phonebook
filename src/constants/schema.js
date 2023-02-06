@@ -10,10 +10,11 @@ export const formSchema = yup.object().shape({
     ),
   number: yup
     .string()
-    .required()
+    .required('required')
+    .min(10, 'The number should contain at least 10 digits')
     .matches(
-      /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/,
-      'Phone number must be at least 10 digits and can contain dashes, spaces, parentheses and can start with +'
+      /^[\\+]?[-\s\\.]?[0-9]{1,2}?[-\s\\.]?[0-9]{1,4}?[-\s\\.]?[0-9]{1,4}?[-\s\\.]?[0-9]{1,4}?[-\s\\.]?[0-9]{1,4}$/,
+      'Phone number can contain dashes, spaces, parentheses and can start with +'
     ),
 });
 

@@ -10,7 +10,6 @@ import { theme } from 'constants/theme';
 import { App } from 'App';
 import { GlobalStyle } from 'styles/GlobalStyles';
 import { HelmetProvider } from 'react-helmet-async';
-
 import { persistor } from 'redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -22,11 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <BrowserRouter basename="/phonebook">
             <ThemeProvider theme={theme}>
               <App />
-              <ToastContainer
-                autoClose={2000}
-                position="bottom-right"
-                style={{ width: '200px' }}
-              />
+              <ToastContainer autoClose={2000} style={{ width: '200px' }} />
               <GlobalStyle />
             </ThemeProvider>
           </BrowserRouter>

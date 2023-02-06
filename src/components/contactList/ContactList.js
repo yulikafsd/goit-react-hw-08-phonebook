@@ -17,7 +17,11 @@ import {
 import { selectFilteredContacts } from 'redux/filter/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/contacts/operations';
-import { setEditedContactId, setIsOpen } from 'redux/contacts/contactsSlice';
+import {
+  setEditedContactId,
+  setIsOpen,
+  setUsedForm,
+} from 'redux/contacts/contactsSlice';
 
 export function ContactList() {
   const operation = useSelector(selectOperation);
@@ -37,7 +41,10 @@ export function ContactList() {
       dispatch(setEditedContactId(null));
       return;
     }
+
     dispatch(setEditedContactId(id));
+    dispatch(setUsedForm('update'));
+
     if (!isOpen) {
       dispatch(setIsOpen(true));
     }

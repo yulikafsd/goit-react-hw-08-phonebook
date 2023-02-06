@@ -14,6 +14,7 @@ const initialState = {
   error: null,
   editedContactId: null,
   isOpen: false,
+  usedForm: null,
 };
 
 const handleRejected = (state, { payload }) => {
@@ -31,6 +32,9 @@ export const contactsSlice = createSlice({
     },
     setIsOpen(state, action) {
       state.isOpen = action.payload;
+    },
+    setUsedForm(state, action) {
+      state.usedForm = action.payload;
     },
   },
   extraReducers: builder =>
@@ -57,6 +61,7 @@ export const contactsSlice = createSlice({
       .addCase(addContact.fulfilled, (state, { payload }) => {
         state.items = [...state.items, payload];
         state.operation = null;
+        state.usedForm = null;
         state.isOpen = false;
         state.isLoading = false;
         state.error = null;
@@ -64,6 +69,7 @@ export const contactsSlice = createSlice({
       .addCase(addContact.rejected, (state, { payload }) => {
         state.isLoading = false;
         state.operation = null;
+        state.usedForm = null;
         state.error = payload;
       })
       .addCase(updateContact.pending, state => {
@@ -72,6 +78,7 @@ export const contactsSlice = createSlice({
       })
       .addCase(updateContact.fulfilled, (state, { payload }) => {
         state.operation = null;
+        state.usedForm = null;
         state.isLoading = false;
         state.isOpen = false;
         state.error = null;
@@ -84,6 +91,7 @@ export const contactsSlice = createSlice({
       })
       .addCase(updateContact.rejected, (state, { payload }) => {
         state.operation = null;
+        state.usedForm = null;
         state.isLoading = false;
         state.error = payload;
         state.editedContactId = null;
@@ -105,5 +113,6 @@ export const contactsSlice = createSlice({
       }),
 });
 
-export const { setEditedContactId, setIsOpen } = contactsSlice.actions;
+export const { setEditedContactId, setIsOpen, setUsedForm } =
+  contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;

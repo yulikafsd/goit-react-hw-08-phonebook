@@ -31,7 +31,12 @@ const LoginPage = () => {
       email: values.email.trim(),
       password: values.password.trim(),
     };
-    dispatch(logIn(user)) && !error && resetForm();
+    dispatch(logIn(user));
+    if (error) {
+      return;
+    } else {
+      resetForm();
+    }
   };
 
   return (
